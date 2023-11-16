@@ -15,15 +15,15 @@ const getBlogPost = async (postSlug: string) => {
   return res.items[0];
 };
 
-export async function generateStaticParams() {
-  const posts = await client.getEntries<BlogPostSkeleton>({ content_type: 'blogPost' });
+// export async function generateStaticParams() {
+//   const posts = await client.getEntries<BlogPostSkeleton>({ content_type: 'blogPost' });
 
-  return posts.items.map((post) => (
-    {
-      slug: post.fields.slug,
-    }
-  ))
-};
+//   return posts.items.map((post) => (
+//     {
+//       slug: post.fields.slug,
+//     }
+//   ))
+// };
 
 export default async function PostPage({params}:{params: {slug: string}}) {
   const blogPost = await getBlogPost(params.slug);
