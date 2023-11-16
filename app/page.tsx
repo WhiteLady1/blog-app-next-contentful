@@ -1,4 +1,4 @@
-import { EntryFieldTypes, createClient } from 'contentful';
+import { Asset, EntryFieldTypes, createClient } from 'contentful';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -27,18 +27,21 @@ export default async function Home() {
 
   return (
     <main>
-      {blogPosts.map(post => (
-        <div key={post.sys.id}>
-          <h2>{post.fields.title}</h2>
-          <Image
-            src={`https:${post.fields.image.fields.file.url}`}
-            alt={post.fields.image.fields.file.url}
-            width={post.fields.image.fields.file.details.image.width}
-            height={post.fields.image.fields.file.details.image.height}
-          />
-          <Link href={`/posts/${post.fields.slug}`}>Detail</Link>
-        </div>
-      ))}
+      {blogPosts.map(post => {
+        const image = post.fields.image as Asset<undefined, string>
+        return (
+          <div key={post.sys.id}>
+            <h2>{post.fields.title}</h2>
+            <Image
+              src={`https:${image.fields.file?.url}`}
+              alt={`${post.fields.title} image`}
+              width={image.fields.file?.details.image?.width}
+              height={image.fields.file?.details.image?.height}
+            />
+            <Link href={`/posts/${post.fields.slug}`}>Detail</Link>
+          </div>
+        )
+      })}
     </main>
   )
 }
