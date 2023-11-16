@@ -1,0 +1,15 @@
+.homepage {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 500px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.homepage__selected-posts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
