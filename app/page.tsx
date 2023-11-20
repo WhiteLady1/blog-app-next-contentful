@@ -17,7 +17,7 @@ interface HomepageDataSkeleton {
   contentTypeId: 'homapage';
   fields: {
     title: EntryFieldTypes.Text;
-    selectedPosts: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<BlogPostSkeleton>>;
+    selectedPost: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<BlogPostSkeleton>>;
     contact: EntryFieldTypes.EntryLink<ContactSkeleton>
   }
 };
@@ -44,7 +44,7 @@ export default async function Home() {
   // const selectedPostsTest = homepageData.fields.selectedPosts as Entry<BlogPostSkeleton , undefined, string>[];
   const contact = homepageData.fields.contact as Entry<ContactSkeleton, undefined, string>;
 
-  console.log(homepageData.fields.selectedPosts);
+  console.log(homepageData.fields.selectedPost);
 
   return (
     <div className='homepage'>
