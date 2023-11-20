@@ -1,6 +1,16 @@
-import { Asset, createClient } from 'contentful';
-import { BlogPostSkeleton } from '@/app/page';
-import BlogPost from "@/app/components/blog-post/blog-post";
+import { Asset, EntryFieldTypes, createClient } from 'contentful';
+import BlogPostDetail from '@/app/components/blog-post-detail/blog-post-detail';
+import '../../globals.css';
+
+ export interface BlogPostSkeleton {
+  contentTypeId: 'blogPost';
+  fields: {
+    title: EntryFieldTypes.Text;
+    slug: EntryFieldTypes.Text;
+    description: EntryFieldTypes.RichText;
+    image: EntryFieldTypes.AssetLink;
+  }
+};
 
 const client = createClient({
   space: process.env.CONTENTFUL_SPACE_ID || '',
@@ -31,9 +41,7 @@ export default async function PostPage({params}:{params: {slug: string}}) {
 
   return (
     <>
-      <p>{params.slug}</p>
-      <p>{blogPost.fields.title}</p>
-      <BlogPost
+      <BlogPostDetail
         title={blogPost.fields.title}
         description={blogPost.fields.description}
         imageUrl={`https:${postImage.fields.file?.url}`}

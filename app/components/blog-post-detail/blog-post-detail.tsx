@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Document } from '@contentful/rich-text-types';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
-interface BlogPostProps {
+export interface BlogPostDetailProps {
   title: string;
   description: Document;
   imageUrl: string;
@@ -10,7 +10,7 @@ interface BlogPostProps {
   imageHeight: number;
 };
 
-const BlogPost: React.FC<BlogPostProps> = ({
+const BlogPostDetail: React.FC<BlogPostDetailProps> = ({
   title,
   description,
   imageUrl,
@@ -19,7 +19,7 @@ const BlogPost: React.FC<BlogPostProps> = ({
 }) => {
   return (
     <div>
-      <h2></h2>
+      <h2>{title}</h2>
       <Image
         src={imageUrl}
         alt={`${title} image`}
@@ -32,4 +32,4 @@ const BlogPost: React.FC<BlogPostProps> = ({
   );
 };
 
-export default BlogPost;
+export default BlogPostDetail;
