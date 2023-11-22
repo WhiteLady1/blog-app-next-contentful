@@ -27,6 +27,8 @@ const client = createClient({
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || ''
 });
 
+//Add switcher for changing languages
+
 const getHomepageData = async () => {
   const res = await client.getEntries<HomepageDataSkeleton>({
     content_type: 'homapage',
