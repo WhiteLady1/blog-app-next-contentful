@@ -21,6 +21,7 @@ const getBlogPost = async (postSlug: string) => {
   const res = await client.getEntries<BlogPostSkeleton>({
     content_type: 'blogPost',
     'fields.slug': postSlug,
+    locale: 'cs'
   });
   return res.items[0];
 };

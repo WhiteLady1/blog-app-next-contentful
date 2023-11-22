@@ -28,12 +28,17 @@ const client = createClient({
 });
 
 const getHomepageData = async () => {
-  const res = await client.getEntries<HomepageDataSkeleton>({ content_type: 'homapage'});
+  const res = await client.getEntries<HomepageDataSkeleton>({
+    content_type: 'homapage',
+    locale: 'cs',
+  });
   return res.items[0];
 };
 
 export default async function Home() {
   const homepageData = await getHomepageData();
+
+  console.log(homepageData)
 
   const selectedPosts = homepageData.fields.selectedPost as Entry<BlogPostSkeleton , undefined, string>[];
   const contact = homepageData.fields.contact as Entry<ContactSkeleton, undefined, string>;
