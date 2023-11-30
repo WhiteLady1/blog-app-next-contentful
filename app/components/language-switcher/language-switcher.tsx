@@ -31,7 +31,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   const switchLanguage = (language: string) => {
     setCookie('NEXT_LOCALE', language, 1);
     console.log(redirectedPathName(language));
-    // router.replace(redirectedPathName(language));
+    router.replace(redirectedPathName(language));
   };
 
   return (
