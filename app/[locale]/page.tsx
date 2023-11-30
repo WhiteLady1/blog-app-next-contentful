@@ -1,6 +1,7 @@
 import { Asset, Entry, EntryFieldTypes, createClient } from 'contentful';
 import { BlogPostSkeleton } from './posts/[slug]/page';
-import BlogPostPreview from './components/blog-post-preview/blog-post-preview';
+import BlogPostPreview from '../components/blog-post-preview/blog-post-preview';
+import LanguageSwitcher from '../components/language-switcher/language-switcher';
 
 import './homepage.css';
 
@@ -29,16 +30,16 @@ const client = createClient({
 
 //Add switcher for changing languages
 
-const getHomepageData = async () => {
+const getHomepageData = async (locale: string) => {
   const res = await client.getEntries<HomepageDataSkeleton>({
     content_type: 'homapage',
-    locale: 'cs',
+    locale: locale,
   });
   return res.items[0];
 };
 
-export default async function Home() {
-  const homepageData = await getHomepageData();
+export default async function Home({params}:{params: {locale: string}}) {
+  const homepageData = await getHomepageData(params.locale);
 
   console.log(homepageData)
 

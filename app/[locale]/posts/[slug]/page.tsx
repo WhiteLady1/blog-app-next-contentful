@@ -17,11 +17,11 @@ const client = createClient({
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || ''
 });
 
-const getBlogPost = async (postSlug: string) => {
+const getBlogPost = async (postSlug: string, locale: string) => {
   const res = await client.getEntries<BlogPostSkeleton>({
     content_type: 'blogPost',
     'fields.slug': postSlug,
-    locale: 'cs'
+    locale: locale
   });
   return res.items[0];
 };
@@ -36,8 +36,9 @@ const getBlogPost = async (postSlug: string) => {
 //   ))
 // };
 
-export default async function PostPage({params}:{params: {slug: string}}) {
-  const blogPost = await getBlogPost(params.slug);
+export default async function PostPage({params}:{params: {slug: string, locale: string}}) {
+  const blogPost = await getBlogPost(params.slug, params.locale);
+  console.log(blogPost);
   const postImage = blogPost.fields.image as Asset<undefined, string>;
 
   return (
