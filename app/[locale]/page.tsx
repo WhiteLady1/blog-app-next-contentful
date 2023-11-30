@@ -1,8 +1,12 @@
 import { Asset, Entry, EntryFieldTypes, createClient } from 'contentful';
 import { BlogPostSkeleton } from './posts/[slug]/page';
 import BlogPostPreview from './components/blog-post-preview/blog-post-preview';
+import { notFound } from 'next/navigation';
+import {unstable_setRequestLocale} from 'next-intl/server';
 
 import './homepage.css';
+
+const locales = ['en-US', 'cs'];
 
 interface ContactSkeleton {
   contentTypeId: 'contact';
@@ -27,13 +31,20 @@ const client = createClient({
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || ''
 });
 
-const getHomepageData = async () => {
-  const res = await client.getEntries<HomepageDataSkeleton>({ content_type: 'homapage'});
+const getHomepageData = async (locale: string) => {
+  const res = await client.getEntries<HomepageDataSkeleton>({
+    content_type: 'homapage',
+    locale: locale
+  });
   return res.items[0];
 };
 
-export default async function Home() {
-  const homepageData = await getHomepageData();
+export default async function Home({params}:{params: {locale: string}}) {
+  if (!locales.includes(params.locale as any)) notFound();
+
+  unstable_setRequestLocale(params.locale);
+
+  const homepageData = await getHomepageData(params.locale);
 
   const selectedPosts = homepageData.fields.selectedPost as Entry<BlogPostSkeleton , undefined, string>[];
   const contact = homepageData.fields.contact as Entry<ContactSkeleton, undefined, string>;
@@ -48,7 +59,7 @@ export default async function Home() {
             <BlogPostPreview
               key={post.sys.id}
               title={post.fields.title}
-              href={`/posts/${post.fields.slug}`}
+              href={`${params.locale}/posts/${post.fields.slug}`}
               imageUrl={`https:${image.fields.file?.url}`}
               imageWidth={image.fields.file?.details.image?.width || 200}
               imageHeight={image.fields.file?.details.image?.height || 100}

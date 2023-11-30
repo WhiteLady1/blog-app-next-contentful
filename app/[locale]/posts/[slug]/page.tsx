@@ -1,6 +1,12 @@
 import { Asset, EntryFieldTypes, createClient } from 'contentful';
-import BlogPostDetail from '@/app/components/blog-post-detail/blog-post-detail';
+import BlogPostDetail from '@/app/[locale]/components/blog-post-detail/blog-post-detail';
+import { notFound } from 'next/navigation';
+import {unstable_setRequestLocale} from 'next-intl/server';
+
 import '../../globals.css';
+import { BackButton } from '../../components/back-button/back-button';
+
+const locales = ['en-US', 'cs'];
 
  export interface BlogPostSkeleton {
   contentTypeId: 'blogPost';
@@ -17,10 +23,11 @@ const client = createClient({
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN || ''
 });
 
-const getBlogPost = async (postSlug: string) => {
+const getBlogPost = async (postSlug: string, locale: string) => {
   const res = await client.getEntries<BlogPostSkeleton>({
     content_type: 'blogPost',
     'fields.slug': postSlug,
+    locale: locale
   });
   return res.items[0];
 };
@@ -35,12 +42,17 @@ const getBlogPost = async (postSlug: string) => {
 //   ))
 // };
 
-export default async function PostPage({params}:{params: {slug: string}}) {
-  const blogPost = await getBlogPost(params.slug);
+export default async function PostPage({params}:{params: {slug: string, locale: string}}) {
+  if (!locales.includes(params.locale as any)) notFound();
+
+  unstable_setRequestLocale(params.locale);
+
+  const blogPost = await getBlogPost(params.slug, params.locale);
   const postImage = blogPost.fields.image as Asset<undefined, string>;
 
   return (
     <>
+      <BackButton locale={params.locale} />
       <BlogPostDetail
         title={blogPost.fields.title}
         description={blogPost.fields.description}

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import {useTranslations} from 'next-intl';
+
 interface BlogPostPreviewProprs {
   title: string;
   href: string
@@ -16,6 +18,8 @@ const BlogPostPreview: React.FC<BlogPostPreviewProprs> = ({
   imageWidth,
   imageHeight
 }) => {
+  const t = useTranslations('Index');
+
   return (
     <Link
       href={href}
@@ -27,6 +31,7 @@ const BlogPostPreview: React.FC<BlogPostPreviewProprs> = ({
         height={imageHeight}
       />
       <h2>{title}</h2>
+      <p>{t('title')}</p>
     </Link>
   );
 };
