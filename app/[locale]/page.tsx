@@ -46,6 +46,8 @@ export default async function Home({params}:{params: {locale: string}}) {
 
   const homepageData = await getHomepageData(params.locale);
 
+  console.log(homepageData);
+
   const selectedPosts = homepageData.fields.selectedPost as Entry<BlogPostSkeleton , undefined, string>[];
   const contact = homepageData.fields.contact as Entry<ContactSkeleton, undefined, string>;
 
@@ -59,7 +61,7 @@ export default async function Home({params}:{params: {locale: string}}) {
             <BlogPostPreview
               key={post.sys.id}
               title={post.fields.title}
-              href={`${params.locale}/posts/${post.fields.slug}`}
+              href={`${params.locale}/posts/${post.sys.id}`}
               imageUrl={`https:${image.fields.file?.url}`}
               imageWidth={image.fields.file?.details.image?.width || 200}
               imageHeight={image.fields.file?.details.image?.height || 100}

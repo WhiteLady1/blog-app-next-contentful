@@ -26,7 +26,7 @@ const client = createClient({
 const getBlogPost = async (postSlug: string, locale: string) => {
   const res = await client.getEntries<BlogPostSkeleton>({
     content_type: 'blogPost',
-    'fields.slug': postSlug,
+    'sys.id': postSlug,
     locale: locale
   });
   return res.items[0];
@@ -49,6 +49,8 @@ export default async function PostPage({params}:{params: {slug: string, locale: 
 
   const blogPost = await getBlogPost(params.slug, params.locale);
   const postImage = blogPost.fields.image as Asset<undefined, string>;
+
+  console.log(blogPost);
 
   return (
     <>
