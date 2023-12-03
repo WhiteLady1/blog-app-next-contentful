@@ -61,10 +61,11 @@ export default async function Home({params}:{params: {locale: string}}) {
             <BlogPostPreview
               key={post.sys.id}
               title={post.fields.title}
-              href={`${params.locale}/posts/${post.sys.id}`}
+              // href={`${params.locale}/posts/${post.sys.id}`}
+              href={`${params.locale}/posts/${post.fields.slug}`}
               imageUrl={`https:${image.fields.file?.url}`}
-              imageWidth={image.fields.file?.details.image?.width || 200}
-              imageHeight={image.fields.file?.details.image?.height || 100}
+              imageWidth={200}
+              imageHeight={300}
             />
           )
         })}

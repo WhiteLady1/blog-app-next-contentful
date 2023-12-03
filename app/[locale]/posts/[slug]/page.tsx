@@ -26,7 +26,7 @@ const client = createClient({
 const getBlogPost = async (postSlug: string, locale: string) => {
   const res = await client.getEntries<BlogPostSkeleton>({
     content_type: 'blogPost',
-    'sys.id': postSlug,
+    'fields.slug': postSlug,
     locale: locale
   });
   return res.items[0];
@@ -59,8 +59,8 @@ export default async function PostPage({params}:{params: {slug: string, locale: 
         title={blogPost.fields.title}
         description={blogPost.fields.description}
         imageUrl={`https:${postImage.fields.file?.url}`}
-        imageWidth={postImage.fields.file?.details.image?.width || 200}
-        imageHeight={postImage.fields.file?.details.image?.height || 100}
+        imageWidth={200}
+        imageHeight={100}
       />
     </>
   );
